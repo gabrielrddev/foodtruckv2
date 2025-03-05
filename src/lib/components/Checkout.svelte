@@ -55,9 +55,7 @@
 		</div>
 	{:else}
 		<div>
-			<button class="text-gray-600" on:click={removeList} disabled={cartCheckout.length === 0}
-				>Realizar Pedido</button
-			>
+			<button class="text-gray-600" disabled={cartCheckout.length === 0}>Realizar Pedido</button>
 		</div>
 	{/if}
 </div>
