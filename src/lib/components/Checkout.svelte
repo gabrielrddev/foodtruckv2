@@ -3,6 +3,8 @@
 	import ValidationQr from './ValidationQR.svelte';
 	import { qrCodeValidated } from './store.js';
 
+	let infoCheck = false;
+
 	let cartCheckout = [];
 	$: isValidated = $qrCodeValidated;
 	onMount(() => {
@@ -55,7 +57,14 @@
 		</div>
 	{:else}
 		<div>
-			<button class="text-gray-600" disabled={cartCheckout.length === 0}>Realizar Pedido</button>
+			<button
+				class="text-gray-600"
+				on:click={() => (infoCheck = true)}
+				disabled={cartCheckout.length === 0}>Realizar Pedido</button
+			>
+			{#if infoCheck}
+				<p>porfavor primeiro escanei o qrcode com algum garçom para finalizar seu pedido</p>
+			{/if}
 		</div>
 	{/if}
 </div>
