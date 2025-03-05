@@ -1,0 +1,77 @@
+{
+	"lanches": [
+		{
+			"id": 1,
+			"name": "X-Burger",
+			"price": 18.9,
+			"details": "Hambúrguer artesanal grelhado, queijo cheddar derretido, picles, ketchup e mostarda no pão brioche."
+		},
+		{
+			"id": 2,
+			"name": "X-Salada",
+			"price": 20.9,
+			"details": "Hambúrguer artesanal, queijo cheddar, alface crocante, tomate, cebola roxa e maionese especial no pão brioche."
+		},
+		{
+			"id": 3,
+			"name": "Hot Dog",
+			"price": 15.9,
+			"details": "Salsicha premium, molho caseiro, batata palha, milho, ervilha, vinagrete e queijo ralado no pão especial."
+		}
+	],
+	"bebidas": [
+		{ "id": 4, "name": "Coca-Cola", "price": 6.9, "details": "Coca-Cola gelada de 350ml em lata." },
+		{
+			"id": 5,
+			"name": "Guaraná",
+			"price": 6.9,
+			"details": "Guaraná Antarctica gelado de 350ml em lata."
+		},
+		{
+			"id": 6,
+			"name": "Suco Natural",
+			"price": 8.9,
+			"details": "Suco natural espremido na hora. Opções: laranja, limão, abacaxi ou maracujá (300ml)."
+		}
+	],
+	"entradas": [
+		{
+			"id": 7,
+			"name": "Batata Frita",
+			"price": 14.9,
+			"details": "Batatas frescas cortadas na hora, fritas em óleo vegetal e temperadas com sal especial. Acompanha ketchup e molho especial."
+		},
+		{
+			"id": 8,
+			"name": "Onion Rings",
+			"price": 16.9,
+			"details": "Anéis de cebola empanados e fritos até ficarem dourados e crocantes. Acompanha molho barbecue."
+		},
+		{
+			"id": 9,
+			"name": "Nachos",
+			"price": 19.9,
+			"details": "Nachos crocantes cobertos com queijo cheddar derretido, guacamole, pico de gallo, e creme azedo."
+		}
+	],
+	"sobremesas": [
+		{
+			"id": 10,
+			"name": "Pudim",
+			"price": 10.9,
+			"details": "Pudim de leite condensado caseiro com calda de caramelo."
+		},
+		{
+			"id": 11,
+			"name": "Sorvete",
+			"price": 12.9,
+			"details": "Duas bolas de sorvete artesanal. Sabores: baunilha, chocolate, morango ou doce de leite."
+		},
+		{
+			"id": 12,
+			"name": "Brownie",
+			"price": 13.9,
+			"details": "Brownie caseiro de chocolate meio-amargo com nozes, servido quente com uma bola de sorvete de baunilha."
+		}
+	]
+}
