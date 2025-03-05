@@ -2,10 +2,11 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { Html5Qrcode } from 'html5-qrcode';
 	import { qrCodeValidated } from './store.js';
+	import QRUsers from '$lib/mock/QRUsers.json';
 
 	let scanner;
 	let result = '';
-	const senhaCorreta = 'taliberado123';
+	const senhaCorreta = QRUsers.password;
 	let qrCode = '';
 
 	async function iniciarScanner() {
