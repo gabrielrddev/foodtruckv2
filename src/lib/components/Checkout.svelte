@@ -29,7 +29,6 @@
 			localStorage.setItem('cartList', JSON.stringify(cartCheckout));
 		}
 	}
-	//Elemento reativo do array
 	$: totalCarrinho = cartCheckout.reduce((total, item) => total + item.price, 0);
 </script>
 

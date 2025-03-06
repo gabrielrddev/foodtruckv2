@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Foods from '$lib/mock/Foods.json';
+	import { assets } from '$app/paths';
 
 	let option = '';
 
@@ -46,9 +47,12 @@
 	</div>
 	<div class="flex flex-col">
 		{#each getFoods(option) as item}
-			<button on:click={() => infoDetails(item)} class="cursor-pointer"
-				>{item.name} {item.price + ' R$'}</button
-			>
+			<div>
+				<img class="size-24" src={`src/lib/assets/${item.id}.jpg`} alt="" />
+				<button on:click={() => infoDetails(item)} class="cursor-pointer"
+					>{item.name} {item.price + ' R$'}</button
+				>
+			</div>
 		{/each}
 		<button class="cursor-pointer" on:click={goCheckout}>checkout</button>
 	</div>

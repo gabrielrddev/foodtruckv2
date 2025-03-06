@@ -15,7 +15,7 @@
 		try {
 			cameras = await Html5Qrcode.getCameras();
 			if (cameras.length > 0) {
-				iniciarScanner(); // Inicia o scanner após listar as câmeras
+				iniciarScanner();
 			} else {
 				result = 'Nenhuma câmera encontrada!';
 			}
