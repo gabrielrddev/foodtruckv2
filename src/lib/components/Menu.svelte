@@ -49,7 +49,11 @@
 		{#each getFoods(option) as item}
 			<div>
 				<button on:click={() => infoDetails(item)} class="cursor-pointer"
-					><img class="size-24" src={`src/lib/assets/${item.id}.jpg`} alt="" />{item.name}
+					><img
+						class="size-24"
+						src={`https://foodtruck-pa.netlify.app/src/lib/assets/${item.id}.jpg`}
+						alt=""
+					/>{item.name}
 					{item.price + ' R$'}</button
 				>
 			</div>
