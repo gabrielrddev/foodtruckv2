@@ -48,9 +48,9 @@
 	<div class="flex flex-col">
 		{#each getFoods(option) as item}
 			<div>
-				<img class="size-24" src={`src/lib/assets/${item.id}.jpg`} alt="" />
 				<button on:click={() => infoDetails(item)} class="cursor-pointer"
-					>{item.name} {item.price + ' R$'}</button
+					><img class="size-24" src={`src/lib/assets/${item.id}.jpg`} alt="" />{item.name}
+					{item.price + ' R$'}</button
 				>
 			</div>
 		{/each}
