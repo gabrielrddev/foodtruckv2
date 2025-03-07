@@ -20,7 +20,7 @@
 		setTimeout(() => {
 			comfirmed = false;
 			location.reload();
-		}, 3000);
+		}, 2000);
 	}
 
 	function removeItem(index) {
@@ -65,7 +65,6 @@
 	</div>
 	{#if cartCheckout.length > 0}
 		<div class="mb-20 rounded-xl bg-white p-4 shadow-md">
-			<!-- Items List -->
 			<div class="mb-6 divide-y divide-gray-100">
 				{#each cartCheckout as item, index}
 					<div class="flex items-center justify-between py-4">

@@ -8,7 +8,6 @@
 	onMount(() => {
 		itemDetails = localStorage.getItem('foodDetails');
 		itemDetails = JSON.parse(itemDetails);
-		console.log(itemDetails);
 	});
 	function addCart() {
 		const savedCart = localStorage.getItem('cartList');
