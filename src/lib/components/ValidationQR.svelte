@@ -92,7 +92,7 @@
 {#if showScannerPopup}
 	<div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
 		<div class="mr-5 ml-5 w-96 rounded-lg bg-white p-6 shadow-lg">
-			<div id="reader" class="mb-4 h-52 w-full"></div>
+			<div id="reader" style="width: 300px; "></div>
 
 			{#if cameras.length > 1}
 				<button class="mb-4 w-full rounded-md bg-red-500 px-4 py-2 text-white" on:click={changeCam}
