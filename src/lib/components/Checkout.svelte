@@ -4,6 +4,7 @@
 	import { qrCodeValidated } from './store.js';
 	import { goto } from '$app/navigation';
 
+	let comfirmed = false;
 	let infoCheck = false;
 	let cartCheckout = [];
 	$: isValidated = $qrCodeValidated;
@@ -15,7 +16,11 @@
 
 	function removeList() {
 		localStorage.removeItem('cartList');
-		location.reload();
+		comfirmed = true;
+		setTimeout(() => {
+			comfirmed = false;
+			location.reload();
+		}, 3000);
 	}
 
 	function removeItem(index) {
@@ -40,7 +45,6 @@
 </script>
 
 <div class="min-h-screen bg-gray-50 p-4">
-	<!-- Header -->
 	<div class="mb-6 flex items-center justify-between">
 		<button
 			on:click={goBack}
@@ -59,8 +63,6 @@
 		</button>
 		<h1 class="text-xl font-bold text-gray-800">Seu Carrinho</h1>
 	</div>
-
-	<!-- Cart Items -->
 	{#if cartCheckout.length > 0}
 		<div class="mb-20 rounded-xl bg-white p-4 shadow-md">
 			<!-- Items List -->
@@ -130,7 +132,6 @@
 				{/each}
 			</div>
 
-			<!-- Summary -->
 			<div class="rounded-lg bg-gray-50 p-4">
 				<div class="mb-2 flex justify-between">
 					<span class="text-gray-600">Itens</span>
@@ -175,8 +176,11 @@
 			</button>
 		</div>
 	{/if}
-
-	<!-- Checkout Button -->
+	{#if comfirmed}
+		<div class="-mt-10 rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
+			<p>Pedido realizado com sucesso!</p>
+		</div>
+	{/if}
 	<div class="fixed right-0 bottom-0 left-0 bg-white p-4 shadow-lg">
 		{#if isValidated}
 			<button

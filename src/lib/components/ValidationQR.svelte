@@ -49,7 +49,7 @@
 						qrCode = 'true';
 						qrCodeValidated.set(true);
 						scanner.stop();
-						showScannerPopup = false; // Fechar o popup ao validar o QR Code
+						showScannerPopup = false;
 					} else {
 						qrCode = 'false';
 					}
@@ -66,7 +66,7 @@
 
 	function iniciarLeitura() {
 		listarCameras();
-		showScannerPopup = true; // Abrir o popup ao iniciar a leitura
+		showScannerPopup = true;
 	}
 
 	function changeCam() {
@@ -88,7 +88,6 @@
 		Ler QRCode para realizar o pedido
 	</button>
 </div>
-<!-- Popup de Scanner -->
 {#if showScannerPopup}
 	<div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
 		<div class="mr-5 ml-5 w-96 rounded-lg bg-white p-6 shadow-lg">

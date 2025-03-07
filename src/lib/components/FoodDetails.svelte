@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	let itemDetails = 'Carregando...';
 	let cartList = [];
+	let selected = false;
 	onMount(() => {
 		itemDetails = localStorage.getItem('foodDetails');
 		itemDetails = JSON.parse(itemDetails);
@@ -16,6 +17,10 @@
 		}
 		cartList.push(itemDetails);
 		localStorage.setItem('cartList', JSON.stringify(cartList));
+		selected = true;
+		setTimeout(() => {
+			selected = false;
+		}, 400);
 	}
 	function goCheckout() {
 		goto('/checkout');
@@ -62,7 +67,11 @@
 		<div class="mt-6 flex space-x-3">
 			<button
 				on:click={addCart}
-				class="flex flex-1 items-center justify-center rounded-lg bg-red-500 py-3 font-bold text-white shadow-md transition-all hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none"
+				class="flex flex-1 items-center justify-center rounded-lg py-3 font-bold text-white shadow-md transition-all hover:bg-red-600 focus:ring-2 focus:outline-none"
+				class:bg-green-500={selected}
+				class:bg-red-500={!selected}
+				class:focus:ring-red-400={!selected}
+				class:focus:ring-green-400={selected}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
