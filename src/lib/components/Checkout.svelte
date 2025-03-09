@@ -3,11 +3,21 @@
 	import ValidationQr from './ValidationQR.svelte';
 	import { qrCodeValidated } from './store.js';
 	import { goto } from '$app/navigation';
+	import delete_icon from '$lib/assets/delete_icon.svg';
+	import add_icon from '$lib/assets/add_icon.svg';
+	import arrowback_icon from '$lib/assets/arrowback_icon.svg';
+	import cart_icon from '$lib/assets/cart_icon.svg';
 
+	let numberMesa;
 	let comfirmed = false;
 	let infoCheck = false;
 	let cartCheckout = [];
 	$: isValidated = $qrCodeValidated;
+	let isValidated2 = false;
+
+	$: if (numberMesa >= 1 || numberMesa <= 10) {
+		isValidated2 = true;
+	}
 
 	onMount(() => {
 		const savedCart = localStorage.getItem('cartList');
@@ -50,15 +60,7 @@
 			on:click={goBack}
 			class="flex items-center rounded-lg bg-white px-3 py-2 text-gray-700 shadow-md hover:bg-gray-100 focus:ring-2 focus:ring-red-400 focus:outline-none"
 		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="mr-1 h-5 w-5"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
-			>
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-			</svg>
+			<img class="flex size-4 justify-center opacity-70" src={arrowback_icon} alt="" />
 			Voltar
 		</button>
 		<h1 class="text-xl font-bold text-gray-800">Seu Carrinho</h1>
@@ -89,41 +91,15 @@
 							<div class="flex space-x-1">
 								<button
 									on:click={() => removeItem(index)}
-									class="rounded-lg bg-gray-200 p-2 text-gray-700 hover:bg-red-100 hover:text-red-500 focus:ring-2 focus:ring-red-400 focus:outline-none"
+									class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 text-gray-700 hover:bg-red-100 hover:text-red-500 focus:ring-2 focus:ring-red-400 focus:outline-none"
 								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-5 w-5"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-										/>
-									</svg>
+									<img class="size-6 opacity-70" src={delete_icon} alt="" />
 								</button>
 								<button
 									on:click={() => addMore(index)}
-									class="rounded-lg bg-gray-200 p-2 text-gray-700 hover:bg-green-100 hover:text-green-500 focus:ring-2 focus:ring-green-400 focus:outline-none"
+									class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 p-2 text-gray-700 hover:bg-green-100 hover:text-green-500 focus:ring-2 focus:ring-green-400 focus:outline-none"
 								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-5 w-5"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M12 4v16m8-8H4"
-										/>
-									</svg>
+									<img class="size-10 opacity-70" src={add_icon} alt="" />
 								</button>
 							</div>
 						</div>
@@ -152,20 +128,7 @@
 		<div
 			class="mb-20 flex flex-col items-center justify-center rounded-xl bg-white p-8 text-center shadow-md"
 		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="mb-4 h-16 w-16 text-gray-300"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-				/>
-			</svg>
+			<img class="size-20 opacity-60" src={cart_icon} alt="" />
 			<p class="text-lg font-medium text-gray-600">Nenhum item no carrinho</p>
 			<button
 				on:click={goBack}
@@ -181,14 +144,29 @@
 		</div>
 	{/if}
 	<div class="fixed right-0 bottom-0 left-0 bg-white p-4 shadow-lg">
-		{#if isValidated}
-			<button
-				on:click={removeList}
-				disabled={cartCheckout.length === 0}
-				class="w-full rounded-lg bg-red-500 py-3 font-bold text-white shadow-md hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none disabled:opacity-50"
-			>
-				Realizar Pedido
-			</button>
+		{#if isValidated}<input
+				class="mb-2 w-full rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700"
+				type="number"
+				bind:value={numberMesa}
+				placeholder="Porfavor insira o numero da mesa!"
+			/>
+			{#if isValidated2}
+				<button
+					on:click={removeList}
+					disabled={cartCheckout.length === 0}
+					class="w-full rounded-lg bg-red-500 py-3 font-bold text-white shadow-md hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none disabled:opacity-50"
+				>
+					Realizar Pedido
+				</button>
+			{:else}
+				<button
+					class="w-full rounded-lg bg-gray-300 py-3 font-bold text-gray-600 shadow-md hover:bg-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none disabled:opacity-50"
+					on:click={() => (infoCheck = true)}
+					disabled={cartCheckout.length === 0}
+				>
+					Realizar Pedido
+				</button>
+			{/if}
 		{:else}
 			<div class="space-y-2">
 				<ValidationQr />

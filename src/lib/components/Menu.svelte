@@ -74,7 +74,11 @@
 			</li>
 		</ul>
 	</div>
-
+	{#if option == ''}
+		<div class=" rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
+			<h1>Escolha qual categoria se encaixa com oque voce deseja pedir!</h1>
+		</div>
+	{/if}
 	<div class="mb-20 space-y-4">
 		{#each getFoods(option) as item}
 			<button

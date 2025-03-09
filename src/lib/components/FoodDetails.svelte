@@ -2,6 +2,10 @@
 	import { json } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import arrowback_icon from '$lib/assets/arrowback_icon.svg';
+	import addcart_icon from '$lib/assets/addcart_icon.svg';
+	import addwhite_icon from '$lib/assets/addwhite_icon.svg';
+
 	let itemDetails = 'Carregando...';
 	let cartList = [];
 	let selected = false;
@@ -34,15 +38,7 @@
 		on:click={goBack}
 		class="mb-4 flex items-center rounded-lg bg-white px-3 py-2 text-gray-700 shadow-md transition-all hover:bg-gray-100 focus:ring-2 focus:ring-red-400 focus:outline-none"
 	>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="mr-1 h-5 w-5"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-		>
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-		</svg>
+		<img class="flex size-4 justify-center opacity-70" src={arrowback_icon} alt="" />
 		Voltar
 	</button>
 	<div class="overflow-hidden rounded-xl bg-white p-4 shadow-md">
@@ -72,40 +68,14 @@
 				class:focus:ring-red-400={!selected}
 				class:focus:ring-green-400={selected}
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="mr-2 h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 4v16m8-8H4"
-					/>
-				</svg>
+				<img src={addwhite_icon} alt="" />
 				Adicionar ao Carrinho
 			</button>
 			<button
 				on:click={goCheckout}
 				class="flex flex-1 items-center justify-center rounded-lg bg-gray-700 py-3 font-bold text-white shadow-md transition-all hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:outline-none"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="mr-2 h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-					/>
-				</svg>
+				<img src={addcart_icon} alt="" />
 				Checkout
 			</button>
 		</div>

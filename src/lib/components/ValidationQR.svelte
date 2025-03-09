@@ -83,8 +83,8 @@
 	});
 </script>
 
-<div class="rounded-lg bg-green-400 p-3 text-sm text-white">
-	<button class="cursor-pointer" on:click={iniciarLeitura}>
+<div class=" rounded-lg bg-green-400 p-3 text-sm text-white">
+	<button class=" cursor-pointer" on:click={iniciarLeitura}>
 		Ler QRCode para realizar o pedido
 	</button>
 </div>
