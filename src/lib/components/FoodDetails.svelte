@@ -9,25 +9,34 @@
 	let itemDetails = 'Carregando...';
 	let cartList = [];
 	let selected = false;
+	let obsInput = '';
+
 	onMount(() => {
 		itemDetails = localStorage.getItem('foodDetails');
 		itemDetails = JSON.parse(itemDetails);
 	});
+
 	function addCart() {
 		const savedCart = localStorage.getItem('cartList');
 		if (savedCart) {
 			cartList = JSON.parse(savedCart);
 		}
-		cartList.push(itemDetails);
+
+		const itemWithObs = { ...itemDetails, observation: obsInput };
+
+		cartList.push(itemWithObs);
 		localStorage.setItem('cartList', JSON.stringify(cartList));
+
 		selected = true;
 		setTimeout(() => {
 			selected = false;
 		}, 400);
 	}
+
 	function goCheckout() {
 		goto('/checkout');
 	}
+
 	function goBack() {
 		goto('/');
 	}
@@ -58,7 +67,14 @@
 			</div>
 			<h3 class="mt-4 text-gray-600">{itemDetails.details}</h3>
 		</div>
-
+		<div class="rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
+			<input
+				bind:value={obsInput}
+				class="w-full"
+				type="text"
+				placeholder="Adicionar alguma observação."
+			/>
+		</div>
 		<div class="mt-6 flex space-x-3">
 			<button
 				on:click={addCart}
