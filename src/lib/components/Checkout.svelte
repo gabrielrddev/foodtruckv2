@@ -8,14 +8,15 @@
 	import arrowback_icon from '$lib/assets/arrowback_icon.svg';
 	import cart_icon from '$lib/assets/cart_icon.svg';
 
-	let numberMesa;
+	let numberTable;
 	let comfirmed = false;
 	let infoCheck = false;
 	let cartCheckout = [];
+	let sendBack = [];
 	$: isValidated = $qrCodeValidated;
 	let isValidated2 = false;
 
-	$: if (numberMesa >= 1 || numberMesa <= 10) {
+	$: if (numberTable >= 1 || numberTable <= 10) {
 		isValidated2 = true;
 	}
 
@@ -24,7 +25,17 @@
 		cartCheckout = savedCart ? JSON.parse(savedCart) : [];
 	});
 
-	function removeList() {
+	function sendList() {
+		const getBack = localStorage.getItem('cartList');
+		if (getBack) {
+			sendBack = JSON.parse(getBack);
+		}
+
+		const itemWithTable = { ...sendBack, numeromesa: numberTable };
+
+		sendBack.push(itemWithTable);
+		localStorage.setItem('sendBack', JSON.stringify(sendBack));
+
 		localStorage.removeItem('cartList');
 		comfirmed = true;
 		setTimeout(() => {
@@ -147,12 +158,12 @@
 		{#if isValidated}<input
 				class="mb-2 w-full rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700"
 				type="number"
-				bind:value={numberMesa}
+				bind:value={numberTable}
 				placeholder="Porfavor insira o numero da mesa!"
 			/>
 			{#if isValidated2}
 				<button
-					on:click={removeList}
+					on:click={sendList}
 					disabled={cartCheckout.length === 0}
 					class="w-full rounded-lg bg-red-500 py-3 font-bold text-white shadow-md hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none disabled:opacity-50"
 				>
