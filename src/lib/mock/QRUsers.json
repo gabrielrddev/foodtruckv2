@@ -1,5 +1,14 @@
 {
-	"id": 1,
-	"name": "Arthur",
-	"password": "taliberado123"
+	"qrusers": [
+		{
+			"id": 1,
+			"name": "Arthur",
+			"password": "taliberado123"
+		},
+		{
+			"id": 2,
+			"name": "Luis",
+			"password": "taliberado123"
+		}
+	]
 }

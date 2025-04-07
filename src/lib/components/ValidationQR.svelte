@@ -4,9 +4,12 @@
 	import { qrCodeValidated } from './store.js';
 	import QRUsers from '$lib/mock/QRUsers.json';
 
+
+	let resultqr = '';
+	let data = '';
+
 	let scanner;
-	let result = '';
-	const senhaCorreta = QRUsers.password;
+	
 	let qrCode = '';
 	let cameras = [];
 	let currentCameraIndex = 0;
@@ -18,11 +21,11 @@
 			if (cameras.length > 0) {
 				iniciarScanner();
 			} else {
-				result = 'Nenhuma câmera encontrada!';
+				resultqr = 'Nenhuma câmera encontrada!';
 			}
 		} catch (error) {
 			console.error('Erro ao listar câmeras:', error);
-			result = 'Erro ao listar câmeras!';
+			resultqr = 'Erro ao listar câmeras!';
 		}
 	}
 
@@ -44,8 +47,27 @@
 				selectedCamera,
 				{ fps: 10, qrbox: 250 },
 				(decodedText) => {
-					result = decodedText;
-					if (result === senhaCorreta) {
+					resultqr = decodedText;
+					
+					const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+const raw = JSON.stringify({
+  scanResult: resultqr 
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("http://localhost:3000/qrcode", requestOptions)
+  .then((response) => response.text())
+  .then((result) => data = result)	
+  .catch((error) => console.error(error));
+					if (data == `{"message":"valido"}`) {
 						qrCode = 'true';
 						qrCodeValidated.set(true);
 						scanner.stop();
@@ -60,7 +82,7 @@
 			);
 		} catch (error) {
 			console.error('Erro ao acessar a câmera:', error);
-			result = 'Erro ao acessar a câmera!';
+			resultqr = 'Erro ao acessar a câmera!';
 		}
 	}
 
@@ -80,6 +102,7 @@
 		if (scanner) {
 			scanner.stop().catch((err) => console.warn('Erro ao parar scanner:', err));
 		}
+
 	});
 </script>
 

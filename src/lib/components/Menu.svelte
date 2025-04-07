@@ -1,22 +1,26 @@
 <script>
 	import { goto } from '$app/navigation';
-	import Foods from '$lib/mock/Foods.json';
+	
+	let data = $state([]);
 	let option = '';
 	function getFoods(option) {
-		switch (option) {
-			case 'entradas':
-				return Foods.entradas;
-			case 'lanches':
-				return Foods.lanches;
-			case 'bebidas':
-				return Foods.bebidas;
-			case 'sobremesas':
-				return Foods.sobremesas;
-			default:
-				return [];
-		}
+		let raw = JSON.stringify({
+		foodType: option
+	})
+		const requestOptions = {
+  		method: "POST",
+  		headers: { "Content-Type": "application/json" },
+  		body: raw
+	};
+		fetch("http://localhost:3000/menu", requestOptions)
+  		.then((response) => response.json())
+  		.then((result) => data = result.message )
+  		.catch((error) => console.error(error));
+
+			return data
 	}
 	function infoDetails(item) {
+		console.log(item)
 		localStorage.setItem('foodDetails', JSON.stringify(item));
 		goto('/foodDetails');
 	}
@@ -34,7 +38,7 @@
 					'entradas'
 						? 'bg-red-500 text-gray-700'
 						: 'text-gray-700'}"
-					on:click={() => (option = 'entradas')}
+					onclick={() => getFoods('entradas')}
 				>
 					Entradas
 				</button>
@@ -45,7 +49,7 @@
 					'lanches'
 						? 'bg-red-500 text-gray-700'
 						: 'text-gray-700'}"
-					on:click={() => (option = 'lanches')}
+					onclick={() => getFoods('lanches')}
 				>
 					Lanches
 				</button>
@@ -56,7 +60,7 @@
 					'bebidas'
 						? 'bg-red-500 text-gray-700'
 						: 'text-gray-700'}"
-					on:click={() => (option = 'bebidas')}
+					onclick={() => getFoods('bebidas')}
 				>
 					Bebidas
 				</button>
@@ -67,22 +71,22 @@
 					'sobremesas'
 						? 'bg-red-500 text-gray-700'
 						: 'text-gray-700'}"
-					on:click={() => (option = 'sobremesas')}
+					onclick={() => getFoods('sobremesas')}
 				>
 					Sobremesas
 				</button>
 			</li>
 		</ul>
 	</div>
-	{#if option == ''}
+	{#if data.length === 0}
 		<div class=" rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
 			<h1>Escolha qual categoria se encaixa com oque voce deseja pedir!</h1>
 		</div>
 	{/if}
 	<div class="mb-20 space-y-4">
-		{#each getFoods(option) as item}
+		{#each data as item}
 			<button
-				on:click={() => infoDetails(item)}
+				onclick={() => infoDetails(item)}
 				class="w-full overflow-hidden rounded-xl bg-white p-3 text-left shadow-md transition-all hover:shadow-lg focus:ring-2 focus:ring-red-400 focus:outline-none"
 			>
 				<div class="flex items-center justify-between">
@@ -111,7 +115,7 @@
 
 	<div class="fixed right-0 bottom-0 left-0 bg-white p-4 shadow-lg">
 		<button
-			on:click={goCheckout}
+			onclick={goCheckout}
 			class="w-full rounded-lg bg-red-500 py-3 font-bold text-white shadow-md transition-all hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none"
 		>
 			Ir para Checkout
