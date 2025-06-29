@@ -12,7 +12,7 @@
   		headers: { "Content-Type": "application/json" },
   		body: raw
 	};
-		fetch("http://localhost:3000/menu", requestOptions)
+		fetch("https://backendfoodtruck-production.up.railway.app/menu", requestOptions)
   		.then((response) => response.json())
   		.then((result) => data = result.message )
   		.catch((error) => console.error(error));
@@ -20,7 +20,7 @@
 			return data
 	}
 	function infoDetails(item) {
-		console.log(item)
+		//console.log(item)
 		localStorage.setItem('foodDetails', JSON.stringify(item));
 		goto('/foodDetails');
 	}

@@ -13,6 +13,14 @@
 	let infoCheck = false;
 	let cartCheckout = [];
 	let sendBack = [];
+
+	//send backend data
+	let foodName;
+	let foodObservation;
+	let foodPrice;
+	let foodDetails;
+	let foodTable;
+
 	$: isValidated = $qrCodeValidated;
 	let isValidated2 = false;
 
@@ -26,18 +34,54 @@
 	});
 
 	function sendList() {
-		const getBack = localStorage.getItem('cartList');
-		if (getBack) {
-			sendBack = JSON.parse(getBack);
+		const cartItems = localStorage.getItem('cartList');
+		if (cartItems) {
+			sendBack = JSON.parse(cartItems);
 		}
 
-		const itemWithTable = { ...sendBack, numeromesa: numberTable };
+		const itemsWithTable = sendBack.map((item) => ({
+			...item,
+			numeromesa: numberTable
+		}));
 
-		sendBack.push(itemWithTable);
-		localStorage.setItem('sendBack', JSON.stringify(sendBack));
+		localStorage.setItem('sendBack', JSON.stringify(itemsWithTable));
+
+		itemsWithTable.forEach((item, index) => {
+			console.log(item);
+			//console.log(`Item ${index + 1}:`);
+			//console.log(`  ID: ${item.id}`); esses dois podem ser configurados a mais
+			foodName = item.name;
+			foodPrice = item.price;
+			foodDetails = item.details;
+			foodObservation = item.observation;
+			foodTable = item.numeromesa;
+
+			const myHeaders = new Headers();
+			myHeaders.append('Content-Type', 'application/json');
+			const raw = JSON.stringify({
+				FoodName: foodName,
+				FoodPrice: foodPrice,
+				FoodDetails: foodDetails,
+				FoodObservation: foodObservation,
+				FoodTable: foodTable
+			});
+
+			const requestOptions = {
+				method: 'POST',
+				headers: myHeaders,
+				body: raw,
+				redirect: 'follow'
+			};
+
+			fetch('https://backendfoodtruck-production.up.railway.app/receivecart', requestOptions)
+				.then((response) => response.text())
+				.then((result) => console.log(result))
+				.catch((error) => console.error(error));
+		});
 
 		localStorage.removeItem('cartList');
 		comfirmed = true;
+
 		setTimeout(() => {
 			comfirmed = false;
 			location.reload();
@@ -47,7 +91,7 @@
 	function removeItem(index) {
 		cartCheckout.splice(index, 1);
 		localStorage.setItem('cartList', JSON.stringify(cartCheckout));
-		cartCheckout = [...cartCheckout]; // Corrigido para forçar atualização reativa
+		cartCheckout = [...cartCheckout];
 	}
 
 	function addMore(index) {
@@ -76,8 +120,14 @@
 		</button>
 		<h1 class="text-xl font-bold text-gray-800">Seu Carrinho</h1>
 	</div>
+	{#if comfirmed}
+		<div class="-mt-3 mb-2 rounded-lg bg-green-50 p-3 text-sm text-green-700">
+			<p>Pedido realizado com sucesso!</p>
+		</div>
+	{/if}
+
 	{#if cartCheckout.length > 0}
-		<div class="mb-20 rounded-xl bg-white p-4 shadow-md">
+		<div class="mb-32 rounded-xl bg-white p-4 shadow-md">
 			<div class="mb-6 divide-y divide-gray-100">
 				{#each cartCheckout as item, index}
 					<div class="flex items-center justify-between py-4">
@@ -147,11 +197,6 @@
 			>
 				Continuar Comprando
 			</button>
-		</div>
-	{/if}
-	{#if comfirmed}
-		<div class="-mt-10 rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
-			<p>Pedido realizado com sucesso!</p>
 		</div>
 	{/if}
 	<div class="fixed right-0 bottom-0 left-0 bg-white p-4 shadow-lg">

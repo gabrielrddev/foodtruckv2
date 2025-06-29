@@ -63,7 +63,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("http://localhost:3000/qrcode", requestOptions)
+fetch("https://backendfoodtruck-production.up.railway.app/qrcode", requestOptions)
   .then((response) => response.text())
   .then((result) => data = result)	
   .catch((error) => console.error(error));
@@ -77,11 +77,11 @@ fetch("http://localhost:3000/qrcode", requestOptions)
 					}
 				},
 				(errorMessage) => {
-					console.log(errorMessage);
+					//console.log(errorMessage);
 				}
 			);
 		} catch (error) {
-			console.error('Erro ao acessar a câmera:', error);
+			//console.error('Erro ao acessar a câmera:', error);
 			resultqr = 'Erro ao acessar a câmera!';
 		}
 	}
