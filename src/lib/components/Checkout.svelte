@@ -47,7 +47,6 @@
 		localStorage.setItem('sendBack', JSON.stringify(itemsWithTable));
 
 		itemsWithTable.forEach((item, index) => {
-			console.log(item);
 			//console.log(`Item ${index + 1}:`);
 			//console.log(`  ID: ${item.id}`); esses dois podem ser configurados a mais
 			foodName = item.name;

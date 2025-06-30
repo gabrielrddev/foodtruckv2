@@ -1,8 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 	
 	let data = $state([]);
 	let option = '';
+	let numberCart = $state();
 	function getFoods(option) {
 		let raw = JSON.stringify({
 		foodType: option
@@ -27,6 +29,13 @@
 	function goCheckout() {
 		goto('/checkout');
 	}
+	onMount(()=>{
+		let itemsCarrinho = JSON.parse(localStorage.getItem('cartList')) || [];
+		if (itemsCarrinho.length != null) {
+			numberCart = itemsCarrinho.length
+			console.log(numberCart)
+		}
+	})
 </script>
 
 <div class="min-h-screen bg-gray-50 p-4">
@@ -112,13 +121,14 @@
 			</button>
 		{/each}
 	</div>
-
+	
+	<!--tem que colocar um contato de itens no carrinho dentro do botom-->
 	<div class="fixed right-0 bottom-0 left-0 bg-white p-4 shadow-lg">
 		<button
 			onclick={goCheckout}
 			class="w-full rounded-lg bg-red-500 py-3 font-bold text-white shadow-md transition-all hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none"
 		>
-			Ir para Checkout
+			Ir para Checkout {'(' + numberCart + ")"}
 		</button>
 	</div>
 </div>
