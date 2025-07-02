@@ -3,53 +3,75 @@
 	import DashBoardGuard from '$lib/components/DashBoardGuard.svelte';
 	import { onMount } from 'svelte';
 
-	let info = $state([]);
-	//tenho que ter um gerador de qrcode e ele pode pegar apartir do input do nome do cliente mais o horario
-	//tenho que adicionar a parte para conseguir adicionar o usuario
-
+	let info = { message: [] };
+	let showModal = false;
+	let newUserName = '';
 
 	onMount(() => {
-		const requestOptions = {
-			method: 'GET',
-			redirect: 'follow'
-		};
-
-		fetch('https://backendfoodtruck-production.up.railway.app/qruserslist', requestOptions)
+		fetch('https://backendfoodtruck-production.up.railway.app/qruserslist')
 			.then((response) => response.text())
 			.then((result) => {
 				info = JSON.parse(result);
-				console.log(info.message);
 			})
 			.catch((error) => console.error(error));
 	});
 
-	function deleteUser(index) {
-		let deleteItemList = info.message[index];
-		console.log(deleteItemList.id);
+	function openModal() {
+		showModal = true;
+	}
+
+	function closeModal() {
+		showModal = false;
+		newUserName = '';
+	}
+
+	async function addUser() {
+		if (newUserName.trim() === '') {
+			alert('Digite um nome válido.');
+			return;
+		}
 
 		const myHeaders = new Headers();
 		myHeaders.append('Content-Type', 'application/json');
 
-		const raw = JSON.stringify({
-			id: deleteItemList.id
-		});
+		const raw = JSON.stringify({ name: newUserName });
 
-		const requestOptions = {
+		try {
+			const response = await fetch('http://localhost:3000/addqruser', {
+				method: 'POST',
+				headers: myHeaders,
+				body: raw,
+				redirect: 'follow'
+			});
+			const result = await response.json();
+
+			info.message = [...info.message, result.data];
+			closeModal();
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	function deleteUser(index) {
+		let deleteItemList = info.message[index];
+
+		const myHeaders = new Headers();
+		myHeaders.append('Content-Type', 'application/json');
+
+		const raw = JSON.stringify({ id: deleteItemList.id });
+
+		fetch('https://backendfoodtruck-production.up.railway.app/deleteqruser', {
 			method: 'POST',
 			headers: myHeaders,
 			body: raw,
 			redirect: 'follow'
-		};
-
-		fetch('https://backendfoodtruck-production.up.railway.app/deleteqruser', requestOptions)
+		})
 			.then((response) => response.text())
-			.then((result) => {
-				console.log(result);
+			.then(() => {
+				info.message.splice(index, 1);
+				info.message = [...info.message];
 			})
 			.catch((error) => console.error(error));
-
-		info.message.splice(index, 1);
-		info.message = [...info.message];
 	}
 </script>
 
@@ -65,7 +87,7 @@
 							<th class="px-6 py-4">ID</th>
 							<th class="px-6 py-4">Nome</th>
 							<th class="px-6 py-4">Ações</th>
-							<th class=" text-xl cursor-pointer">+</th>
+							<th class="text-xl cursor-pointer" on:click={openModal}>+</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -75,7 +97,7 @@
 								<td class="px-6 py-3">{x.name}</td>
 								<td class="px-6 py-3">
 									<button
-										onclick={() => deleteUser(index)}
+										on:click={() => deleteUser(index)}
 										class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200"
 									>
 										Excluir
@@ -88,4 +110,32 @@
 			</div>
 		</div>
 	</DashBoardGuard>
+
+	{#if showModal}
+		<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+			<div class="bg-white p-6 rounded-lg shadow-lg w-80">
+				<h2 class="text-xl font-semibold mb-4 text-center">Adicionar Garçom</h2>
+				<input
+					type="text"
+					placeholder="Nome do garçom"
+					bind:value={newUserName}
+					class="w-full px-4 py-2 border rounded-lg mb-4"
+				/>
+				<div class="flex justify-end space-x-4">
+					<button
+						on:click={closeModal}
+						class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+					>
+						Cancelar
+					</button>
+					<button
+						on:click={addUser}
+						class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+					>
+						Adicionar
+					</button>
+				</div>
+			</div>
+		</div>
+	{/if}
 </div>

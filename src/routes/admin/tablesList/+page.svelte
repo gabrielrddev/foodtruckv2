@@ -118,7 +118,7 @@
 												on:click={() => deleteFood(index, table)}
 												class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition"
 											>
-												Mesa Paga
+												Item Pago
 											</button>
 										</td>
 									</tr>
